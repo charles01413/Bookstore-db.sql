@@ -179,24 +179,24 @@ INSERT INTO book_language (language_code, language_name) VALUES
 
 -- Insert sample data into publisher
 INSERT INTO publisher (publisher_name) VALUES
-('Penguin Random House'),
-('HarperCollins'),
-('Simon & Schuster'),
-('Macmillan');
+('Heinemann African Writers Series'),
+('Gallimard'),
+('Planeta'),
+('Suhrkamp');
 
 -- Insert sample data into author
 INSERT INTO author (author_name) VALUES
-('J.K. Rowling'),
-('George R.R. Martin'),
-('Stephen King'),
-('Agatha Christie');
+('Chinua Achebe'),
+('Albert Camus'),
+('Gabriel García Márquez'),
+('Franz Kafka');
 
 -- Insert sample data into book
 INSERT INTO book (title, isbn, num_pages, publication_date, language_id, publisher_id, price, stock_quantity) VALUES
-('Harry Potter and the Philosopher''s Stone', '9780747532743', 223, '1997-06-26', 1, 1, 12.99, 50),
-('A Game of Thrones', '9780553103540', 694, '1996-08-01', 1, 2, 15.99, 30),
-('The Shining', '9780307743657', 447, '1977-01-28', 1, 3, 9.99, 25),
-('Murder on the Orient Express', '9780062073495', 256, '1934-01-01', 1, 4, 8.99, 40);
+('Things Fall Apart', '9780435905255', 209, '1958-06-17', 1, 1, 10.99, 100),
+('The Stranger', '9782070360024', 123, '1942-01-01', 3, 2, 9.99, 80), 
+('One Hundred Years of Solitude', '9780307474728', 417, '1967-05-30', 2, 3, 12.99, 90), 
+('The Trial', '9780805210408', 224, '1925-04-26', 4, 4, 11.99, 70);
 
 -- Insert sample data into book_author
 INSERT INTO book_author (book_id, author_id) VALUES
@@ -207,10 +207,10 @@ INSERT INTO book_author (book_id, author_id) VALUES
 
 -- Insert sample data into country
 INSERT INTO country (country_name) VALUES
-('United States'),
-('United Kingdom'),
-('Canada'),
-('Australia');
+('Nigeria'),
+('France'),
+('Colombia'),
+('Germany');
 
 -- Insert sample data into address_status
 INSERT INTO address_status (address_status) VALUES
@@ -221,15 +221,17 @@ INSERT INTO address_status (address_status) VALUES
 
 -- Insert sample data into address
 INSERT INTO address (street_number, street_name, city, state, postal_code, country_id) VALUES
-('123', 'Main St', 'New York', 'NY', '10001', 1),
-('456', 'Oak Ave', 'London', NULL, 'SW1A 1AA', 2),
-('789', 'Maple Rd', 'Toronto', 'ON', 'M5V 2H1', 3),
-('101', 'Pine Blvd', 'Sydney', 'NSW', '2000', 4);
+('123', 'Achebe Lane', 'Lagos', NULL, '101001', 1), 
+('456', 'Rue Camus', 'Paris', NULL, '75001', 2), 
+('789', 'Solitude Avenue', 'Bogotá', NULL, '110111', 3), 
+('101', 'Kafka Strasse', 'Berlin', NULL, '10115', 4); 
 
 -- Insert sample data into customer
 INSERT INTO customer (first_name, last_name, email, phone, password_hash) VALUES
-('John', 'Doe', 'john.doe@example.com', '555-123-4567', SHA2('password123', 256)),
-('Jane', 'Smith', 'jane.smith@example.com', '555-987-6543', SHA2('securepass', 256));
+('Amina', 'Okafor', 'amina.okafor@gmail.com', '+234-802-555-1234', SHA2('password123', 256)), 
+('Jean', 'Dupont', 'jean.dupont@gmail.com', '+33-1-555-5678', SHA2('securepass', 256)), 
+('María', 'González', 'maria.gonzalez@gmail.com', '+57-320-555-8901', SHA2('solitudepass', 256)),
+('Hans', 'Müller', 'hans.muller@gmail.com', '+49-30-555-4321', SHA2('trialpassword', 256)); 
 
 -- Insert sample data into customer_address
 INSERT INTO customer_address (customer_id, address_id, status_id) VALUES
