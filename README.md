@@ -2,7 +2,7 @@
 
 # Train Booking Management System
 
-The **Train Booking Management System** is an open-source project. This system simulates the process of booking train tickets, managing customer data, and handling reservation details, helping learners build essential skills in database design.
+The **Train Booking Management System** is an open-source project. This system simulates the process of booking train tickets, managing customer data, and handling reservation details.
 
 
 ## Features
