@@ -1,19 +1,14 @@
-sample solution ya AI. # BookStore Database Project - MySQL Implementation
+# BookStore Database Project - MySQL Implementation
 
 
+## Step 1: Creating the Database
 
-## Step 1: Create the Database
-
-sql
 CREATE DATABASE bookstore;
 USE bookstore;
 
 
-## Step 2: Design and Create Tables
-
-Here are the SQL commands to create all the required tables with appropriate relationships:
-
-sql
+## Step 2: Designing and Creating Tables
+    
 -- Create book_language table
 CREATE TABLE book_language (
     language_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -150,9 +145,8 @@ CREATE TABLE order_history (
 );
 
 
-## Step 3: Set Up User Groups and Roles
+## Step 3: Setting Up User Groups and Roles
 
-sql
 -- Create database users with appropriate privileges
 CREATE USER 'bookstore_admin'@'localhost' IDENTIFIED BY 'admin_password';
 GRANT ALL PRIVILEGES ON bookstore.* TO 'bookstore_admin'@'localhost';
@@ -161,14 +155,12 @@ CREATE USER 'bookstore_manager'@'localhost' IDENTIFIED BY 'manager_password';
 GRANT SELECT, INSERT, UPDATE, DELETE ON bookstore.* TO 'bookstore_manager'@'localhost';
 
 CREATE USER 'bookstore_staff'@'localhost' IDENTIFIED BY 'staff_password';
-GRANT SELECT, INSERT, UPDATE ON 
-    bookstore.book, 
-    bookstore.author, 
-    bookstore.book_author,
-    bookstore.customer,
-    bookstore.cust_order,
-    bookstore.order_line
-TO 'bookstore_staff'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON bookstore.book TO 'bookstore_staff'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON bookstore.author TO 'bookstore_staff'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON bookstore.book_author TO 'bookstore_staff'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON bookstore.customer TO 'bookstore_staff'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON bookstore.cust_order TO 'bookstore_staff'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON bookstore.order_line TO 'bookstore_staff'@'localhost';
 
 CREATE USER 'bookstore_report'@'localhost' IDENTIFIED BY 'report_password';
 GRANT SELECT ON bookstore.* TO 'bookstore_report'@'localhost';
@@ -176,4 +168,148 @@ GRANT SELECT ON bookstore.* TO 'bookstore_report'@'localhost';
 FLUSH PRIVILEGES;
 
 
+## Step 4: Sample Data Insertion
 
+-- Insert sample data into book_language
+INSERT INTO book_language (language_code, language_name) VALUES
+('en', 'English'),
+('es', 'Spanish'),
+('fr', 'French'),
+('de', 'German');
+
+-- Insert sample data into publisher
+INSERT INTO publisher (publisher_name) VALUES
+('Penguin Random House'),
+('HarperCollins'),
+('Simon & Schuster'),
+('Macmillan');
+
+-- Insert sample data into author
+INSERT INTO author (author_name) VALUES
+('J.K. Rowling'),
+('George R.R. Martin'),
+('Stephen King'),
+('Agatha Christie');
+
+-- Insert sample data into book
+INSERT INTO book (title, isbn, num_pages, publication_date, language_id, publisher_id, price, stock_quantity) VALUES
+('Harry Potter and the Philosopher''s Stone', '9780747532743', 223, '1997-06-26', 1, 1, 12.99, 50),
+('A Game of Thrones', '9780553103540', 694, '1996-08-01', 1, 2, 15.99, 30),
+('The Shining', '9780307743657', 447, '1977-01-28', 1, 3, 9.99, 25),
+('Murder on the Orient Express', '9780062073495', 256, '1934-01-01', 1, 4, 8.99, 40);
+
+-- Insert sample data into book_author
+INSERT INTO book_author (book_id, author_id) VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4);
+
+-- Insert sample data into country
+INSERT INTO country (country_name) VALUES
+('United States'),
+('United Kingdom'),
+('Canada'),
+('Australia');
+
+-- Insert sample data into address_status
+INSERT INTO address_status (address_status) VALUES
+('Current'),
+('Previous'),
+('Billing'),
+('Shipping');
+
+-- Insert sample data into address
+INSERT INTO address (street_number, street_name, city, state, postal_code, country_id) VALUES
+('123', 'Main St', 'New York', 'NY', '10001', 1),
+('456', 'Oak Ave', 'London', NULL, 'SW1A 1AA', 2),
+('789', 'Maple Rd', 'Toronto', 'ON', 'M5V 2H1', 3),
+('101', 'Pine Blvd', 'Sydney', 'NSW', '2000', 4);
+
+-- Insert sample data into customer
+INSERT INTO customer (first_name, last_name, email, phone, password_hash) VALUES
+('John', 'Doe', 'john.doe@example.com', '555-123-4567', SHA2('password123', 256)),
+('Jane', 'Smith', 'jane.smith@example.com', '555-987-6543', SHA2('securepass', 256));
+
+-- Insert sample data into customer_address
+INSERT INTO customer_address (customer_id, address_id, status_id) VALUES
+(1, 1, 1),
+(1, 2, 3),
+(2, 3, 1),
+(2, 4, 4);
+
+-- Insert sample data into shipping_method
+INSERT INTO shipping_method (method_name, cost) VALUES
+('Standard Shipping', 4.99),
+('Express Shipping', 9.99),
+('Overnight Shipping', 19.99);
+
+-- Insert sample data into order_status
+INSERT INTO order_status (status_value) VALUES
+('Pending'),
+('Processing'),
+('Shipped'),
+('Delivered'),
+('Cancelled');
+
+-- Insert sample data into cust_order
+INSERT INTO cust_order (customer_id, shipping_method_id, dest_address_id) VALUES
+(1, 1, 1),
+(2, 2, 3);
+
+-- Insert sample data into order_line
+INSERT INTO order_line (order_id, book_id, price, quantity) VALUES
+(1, 1, 12.99, 1),
+(1, 3, 9.99, 2),
+(2, 2, 15.99, 1),
+(2, 4, 8.99, 1);
+
+-- Insert sample data into order_history
+INSERT INTO order_history (order_id, status_id) VALUES
+(1, 1),
+(1, 2),
+(2, 1);
+
+
+## Step 5: Test Queries
+
+-- 1. Get all books with their authors:
+SELECT b.title, a.author_name 
+FROM book b
+JOIN book_author ba ON b.book_id = ba.book_id
+JOIN author a ON ba.author_id = a.author_id;
+
+
+-- 2. Get customer orders with order details:
+SELECT 
+    c.first_name, c.last_name, 
+    o.order_id, o.order_date,
+    b.title, ol.quantity, ol.price,
+    (ol.quantity * ol.price) AS line_total
+FROM customer c
+JOIN cust_order o ON c.customer_id = o.customer_id
+JOIN order_line ol ON o.order_id = ol.order_id
+JOIN book b ON ol.book_id = b.book_id;
+
+
+-- 3. Get inventory report:
+SELECT 
+    b.title, 
+    b.stock_quantity,
+    b.price,
+    (b.stock_quantity * b.price) AS inventory_value
+FROM book b
+ORDER BY inventory_value DESC;
+
+
+-- 4. Get order status history:
+SELECT 
+    o.order_id, 
+    c.first_name, c.last_name,
+    os.status_value, 
+    oh.status_date
+FROM cust_order o
+JOIN customer c ON o.customer_id = c.customer_id
+JOIN order_history oh ON o.order_id = oh.order_id
+JOIN order_status os ON oh.status_id = os.status_id
+ORDER BY o.order_id, oh.status_date;
